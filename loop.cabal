@@ -1,10 +1,10 @@
 name:          loop
 version:       0.1.0
 license:       MIT
-copyright:     2013 Niklas Hambüchen <mail@nh2.me>
+copyright:     2014 Niklas Hambüchen <mail@nh2.me>
 author:        Niklas Hambüchen <mail@nh2.me>
 maintainer:    Niklas Hambüchen <mail@nh2.me>
-category:      Data
+category:      Control
 build-type:    Simple
 stability:     experimental
 tested-with:   GHC==7.6.3
