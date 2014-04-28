@@ -46,5 +46,21 @@ benchmark bench
     , loop
     , criterion           >= 0.6.0.0
     , random              >= 1.0.1.1
+    , vector              >= 0.10.9.1
+  ghc-options:
+    -Wall -O2
+
+
+benchmark bench-traverse-w32
+  type: exitcode-stdio-1.0
+  hs-source-dirs:
+    bench
+  main-is:
+    TraverseW32.hs
+  build-depends:
+      base                >= 4 && < 5
+    , loop
+    , criterion           >= 0.6.0.0
+    , vector              >= 0.10.9.1
   ghc-options:
     -Wall -O2
