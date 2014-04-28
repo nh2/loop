@@ -27,6 +27,8 @@ source-repository head
 library
   exposed-modules:
     Control.Loop
+    -- Internal
+    Control.Loop.Internal
   hs-source-dirs:
     src
   build-depends:

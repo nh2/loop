@@ -5,7 +5,8 @@ module Main (main) where
 import           Criterion.Main
 import           Data.Word
 
-import           Control.Loop (loop, unsafeLoop, numLoop, forLoop)
+import           Control.Loop (forLoop)
+import           Control.Loop.Internal (loop, unsafeLoop, numLoop)
 
 
 main :: IO ()
