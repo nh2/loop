@@ -81,7 +81,7 @@ unsafeLoopMonadIntInlinable :: Int -> Int -> (Int -> IO ()) -> IO ()
 unsafeLoopMonadIntInlinable start end f = go start
   where
     go !x | x == end  = f x
-          | otherwise = f x >> go (x + 1)
+          | otherwise = f x >> go (x+1)
 
 {-# INLINEABLE unsafeLoopMonadIntInlinable #-}
 
@@ -91,7 +91,7 @@ unsafeLoopMonadIntInline :: Int -> Int -> (Int -> IO ()) -> IO ()
 unsafeLoopMonadIntInline start end f = go start
   where
     go !x | x == end  = f x
-          | otherwise = f x >> go (x + 1)
+          | otherwise = f x >> go (x+1)
 
 {-# INLINE unsafeLoopMonadIntInline #-}
 
