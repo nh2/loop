@@ -1,7 +1,7 @@
 {-# LANGUAGE BangPatterns #-}
 
 -- | Provides a convenient and fast alternative to the common
--- `forM_ [1..n]` idiom, which in many cases GHC cannot fuse to efficient
+-- @forM_ [1..n]@ idiom, which in many cases GHC cannot fuse to efficient
 -- code.
 --
 -- Notes on fast iteration:
@@ -18,6 +18,12 @@
 --
 -- * Using @(+1)@ from `Num` is always the fastest way, but it gives
 --   no overflow checking.
+--
+-- * Using `forLoop` you can flexibly pick the way of increasing the value
+--   that best fits your needs.
+--
+-- * The currently recommended replacement for @forM_ [1..n]@ is
+--   @forLoop 1 (<= n) (+1)@.
 module Control.Loop
   ( loop
   , unsafeLoop
