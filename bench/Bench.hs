@@ -4,10 +4,10 @@ module Main (main) where
 
 import           Criterion.Main
 import           Data.Word
+import           System.Random (randomIO)
 
 import           Control.Loop (loop, unsafeLoop)
 
-import           System.Random (randomIO)
 
 main :: IO ()
 main = do
