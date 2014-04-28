@@ -9,7 +9,7 @@ import qualified Data.Vector.Unboxed as U
 import           Data.Word
 import           System.Random (randomIO)
 
-import           Control.Loop (loop, unsafeLoop, numLoop)
+import           Control.Loop (loop, unsafeLoop, numLoop, forLoop)
 
 
 main :: IO ()
@@ -23,6 +23,7 @@ main = do
     [ bgroup "int" [ bench "loop"                         $ nfIO $ loop                         0 (1000000 :: Int)    (\_ -> return ())
                    , bench "unsafeLoop"                   $ nfIO $ unsafeLoop                   0 (1000000 :: Int)    (\_ -> return ())
                    , bench "numLoop"                      $ nfIO $ numLoop                      0 (1000000 :: Int)    (\_ -> return ())
+                   , bench "forLoop"                      $ nfIO $ forLoop                      (0 :: Int) (< 1000000) (+1) (\_ -> return ())
                    , bench "loopLocal"                    $ nfIO $ loopLocal                    0 (1000000 :: Int)    (\_ -> return ())
                    , bench "unsafeLoopLocal"              $ nfIO $ unsafeLoopLocal              0 (1000000 :: Int)    (\_ -> return ())
                    , bench "loopMonad"                    $ nfIO $ loopMonad                    0 (1000000 :: Int)    (\_ -> return ())
@@ -44,6 +45,7 @@ main = do
     , bgroup "w32" [ bench "loop"                          $ nfIO $ loop                        0 (1000000 :: Word32) (\_ -> return ())
                    , bench "unsafeLoop"                    $ nfIO $ unsafeLoop                  0 (1000000 :: Word32) (\_ -> return ())
                    , bench "numLoop"                       $ nfIO $ numLoop                     0 (1000000 :: Word32) (\_ -> return ())
+                   , bench "forLoop"                       $ nfIO $ forLoop                     (0 :: Word32) (< 1000000) (+1) (\_ -> return ())
                    , bench "loopLocal"                     $ nfIO $ loopLocal                   0 (1000000 :: Word32) (\_ -> return ())
                    , bench "unsafeLoopLocal"               $ nfIO $ unsafeLoopLocal             0 (1000000 :: Word32) (\_ -> return ())
                    , bench "loopMonad"                     $ nfIO $ loopMonad                   0 (1000000 :: Word32) (\_ -> return ())

@@ -5,7 +5,7 @@ module Main (main) where
 import           Criterion.Main
 import           Data.Word
 
-import           Control.Loop (loop, unsafeLoop, numLoop)
+import           Control.Loop (loop, unsafeLoop, numLoop, forLoop)
 
 
 main :: IO ()
@@ -17,5 +17,6 @@ main = do
     [ bgroup "traversew32" [ bench "loop"        $ nfIO $ loop        0 (maxBound :: Word32) (\_ -> return ())
                            , bench "unsafeLoop"  $ nfIO $ unsafeLoop  0 (maxBound :: Word32) (\_ -> return ())
                            , bench "numLoop"     $ nfIO $ numLoop     0 (maxBound :: Word32) (\_ -> return ())
+                           , bench "forLoop"     $ nfIO $ forLoop     0 (< (maxBound :: Word32)) (+1) (\_ -> return ())
                            ]
     ]

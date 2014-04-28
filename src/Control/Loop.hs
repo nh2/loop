@@ -22,6 +22,7 @@ module Control.Loop
   ( loop
   , unsafeLoop
   , numLoop
+  , forLoop
   ) where
 
 
@@ -69,11 +70,12 @@ numLoop start end f = go start
 
 
 
+-- | @forLoop start cond inc f@: A C-style for loop with starting value,
+-- loop condition and incrementor.
+forLoop :: (Monad m) => a -> (a -> Bool) -> (a -> a) -> (a -> m ()) -> m ()
+forLoop start cond inc f = go start
+  where
+    go !x | cond x    = f x >> go (inc x)
+          | otherwise = return ()
 
--- TODO try this
-
--- forLoop :: a -> (a -> Bool) -> (a -> a) -> (a -> IO ()) -> IO ()
--- forLoop start check inc f = go start
---   where
---     go !x | check x   = f x >> go (inc x)
---           | otherwise = return ()
+{-# INLINE forLoop #-}
