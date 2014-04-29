@@ -81,3 +81,18 @@ benchmark bench-traverse-w32
     , vector              >= 0.10.9.1
   ghc-options:
     -Wall -O2
+
+
+benchmark bench-foldl-and-iorefs-are-slow
+  type: exitcode-stdio-1.0
+  hs-source-dirs:
+    bench
+  main-is:
+    FoldlAndIORefAreSlow.hs
+  build-depends:
+      base                >= 4.6 && < 5
+    , criterion           >= 0.6.0.0
+    , mtl                 >= 2.1.2
+    , vector              >= 0.10.9.1
+  ghc-options:
+    -Wall -O2
