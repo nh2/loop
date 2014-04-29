@@ -6,6 +6,7 @@ import           Control.Monad.State.Strict
 import           Criterion.Main
 import           Data.List (foldl')
 import           Data.IORef
+import qualified Data.Vector as V
 import           Data.Word
 
 
@@ -18,9 +19,11 @@ main = do
     [ bgroup "sum32"       [ bench "sumW32loopIORef"     $ nfIO (sumW32loopIORef                          1000000)
                            , bench "sumW32StrictState"   $ whnf (\n -> execState (sumW32StrictState n) 0) 1000000
                            , bench "foldlW32"            $ whnf (\n -> foldl' (+) 0 [0..n::Word32])       1000000
+                           , bench "V.foldlW32"          $ whnf (\n -> V.foldl' (+) 0 (V.enumFromTo 0 (n::Word32))) 1000000
                            , bench "sumIntloopIORef"     $ nfIO (sumIntloopIORef                          1000000)
                            , bench "sumIntStrictState"   $ whnf (\n -> execState (sumIntStrictState n) 0) 1000000
                            , bench "foldlInt"            $ whnf (\n -> foldl' (+) 0 [0..n::Int])          1000000
+                           , bench "V.foldlInt"          $ whnf (\n -> V.foldl' (+) 0 (V.enumFromTo 0 (n::Int)))    1000000
                            ]
     ]
 
