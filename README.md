@@ -44,6 +44,8 @@ forLoop start cond inc f = go start
   where
     go !x | cond x    = f x >> go (inc x)
           | otherwise = return ()
+
+{-# INLINE loop #-}
 ```
 
 And you can use it as
