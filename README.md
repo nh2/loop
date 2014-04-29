@@ -88,7 +88,7 @@ Benchmarks
 
 * [bench/Bench.hs results](http://htmlpreview.github.io/?https://github.com/nh2/loop/blob/master/results/bench.html)
 * [bench/TraverseW32.hs results](http://htmlpreview.github.io/?https://github.com/nh2/loop/blob/master/results/bench-traverse-w32.html)
-* [bench/FoldlAndIORefAreSlow.hs results](http://htmlpreview.github.io/?https://github.com/nh2/loop/blob/master/results/bench-foldl-and-iorefs-are-slow.html)
+* [bench/FoldlAndIORefAreSlow.hs results](http://htmlpreview.github.io/?https://github.com/nh2/loop/blob/master/results/bench-foldl-and-iorefs-are-slow.html) - see also [llvm](http://htmlpreview.github.io/?https://github.com/nh2/loop/blob/master/results/bench-foldl-and-iorefs-are-slow-llvm.html), [ghc7.8](http://htmlpreview.github.io/?https://github.com/nh2/loop/blob/master/results/bench-foldl-and-iorefs-are-slow-7.8.html), [ghc7.8/llvm](http://htmlpreview.github.io/?https://github.com/nh2/loop/blob/master/results/bench-foldl-and-iorefs-are-slow-7.8-llvm.html)
 
 Some results:
 
