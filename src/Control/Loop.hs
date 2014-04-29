@@ -27,6 +27,8 @@
 module Control.Loop
   ( forLoop
   , forLoopFold
+  , numLoop
+  , numLoopFold
   ) where
 
 
@@ -55,3 +57,32 @@ forLoopFold start cond inc acc0 f = go acc0 start
               | otherwise = acc
 
 {-# INLINE forLoopFold #-}
+
+
+-- | @numLoop start end f@: Loops over a contiguous numerical range, including
+-- @end@.
+--
+-- It uses @(+ 1)@ so for most integer types it has no bounds (overflow) check.
+numLoop :: (Num a, Eq a, Monad m) => a -> a -> (a -> m ()) -> m ()
+numLoop start end f = go start
+  where
+    go !x | x == end  = f x
+          | otherwise = f x >> go (x+1)
+
+{-# INLINE numLoop #-}
+
+
+-- | @numLoopFold start end acc0 f@: A pure fold over a contiguous numerical
+-- range, including @end@.
+--
+-- It uses @(+ 1)@ so for most integer types it has no bounds (overflow) check.
+--
+-- Care is taken that @acc0@ not be strictly evaluated if unless done so by @f@.
+numLoopFold :: (Num a, Eq a) => a -> a -> acc -> (acc -> a -> acc) -> acc
+numLoopFold start end acc0 f = go acc0 start
+  where
+    go acc !x | x == end  = f acc x
+              | otherwise = let acc' = f acc x
+                             in acc' `seq` go acc' (x+1)
+
+{-# INLINE numLoopFold #-}

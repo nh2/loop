@@ -9,8 +9,8 @@ import qualified Data.Vector.Unboxed as U
 import           Data.Word
 import           System.Random (randomIO)
 
-import           Control.Loop (forLoop)
-import           Control.Loop.Internal (loop, unsafeLoop, numLoop)
+import           Control.Loop (forLoop, numLoop)
+import           Control.Loop.Internal (loop, unsafeLoop)
 
 
 main :: IO ()

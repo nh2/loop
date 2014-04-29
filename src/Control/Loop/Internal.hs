@@ -6,7 +6,6 @@
 module Control.Loop.Internal
   ( loop
   , unsafeLoop
-  , numLoop
   ) where
 
 
@@ -39,15 +38,3 @@ unsafeLoop start end f = go start
     unsafeSucc = toEnum . (+ 1) . fromEnum
 
 {-# INLINE unsafeLoop #-}
-
-
--- | Like `loop`, but using `Num` instead.
---
--- It uses @(+ 1)@ so for most integer types it has no bounds (overflow) check.
-numLoop :: (Num a, Eq a, Monad m) => a -> a -> (a -> m ()) -> m ()
-numLoop start end f = go start
-  where
-    go !x | x == end  = f x
-          | otherwise = f x >> go (x+1)
-
-{-# INLINE numLoop #-}

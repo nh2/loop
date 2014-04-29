@@ -5,7 +5,7 @@ import           Data.IORef
 import           Data.Word
 import           Test.Hspec
 
-import           Control.Loop (forLoop)
+import           Control.Loop (forLoop, numLoop, numLoopFold)
 
 
 main :: IO ()
@@ -51,3 +51,20 @@ main = hspec $ do
               put $! x + 1
 
       res `shouldBe` (maxBound :: Word32)
+
+
+  describe "numLoop" $ do
+
+    it "is inclusive" $ do
+      let res = flip execState 0 $ do
+            numLoop (0 :: Int) 10 $ \i -> do
+              x <- get
+              put $! x + i
+
+      res `shouldBe` 55
+
+
+  describe "numLoopFold" $ do
+
+    it "is inclusive" $ do
+      numLoopFold (0 :: Int) 10 0 (+) `shouldBe` 55
