@@ -68,6 +68,21 @@ benchmark bench
     -Wall -O2
 
 
+benchmark bench-folds
+  type: exitcode-stdio-1.0
+  hs-source-dirs:
+    bench
+  main-is:
+    BenchFolds.hs
+  build-depends:
+      base                >= 4 && < 5
+    , loop
+    , criterion           >= 0.6.0.0
+    , mtl                 >= 2.1.2
+  ghc-options:
+    -Wall -O2
+
+
 benchmark bench-traverse-w32
   type: exitcode-stdio-1.0
   hs-source-dirs:
