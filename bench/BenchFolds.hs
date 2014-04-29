@@ -5,7 +5,7 @@ module Main (main) where
 import           Control.Monad.State.Strict
 import           Criterion.Main
 
-import           Control.Loop (forLoop, forLoopFold)
+import           Control.Loop (forLoop, forLoopFold, numLoopFold)
 
 
 main :: IO ()
@@ -14,6 +14,7 @@ main = do
   defaultMain
     [ bgroup "pure"    [ bench "sumFold"           $ whnf sumFold          1000000
                        , bench "sumFoldTooStrict"  $ whnf sumFoldTooStrict 1000000
+                       , bench "numSumFold"        $ whnf numSumFold       1000000
                        ]
     , bgroup "monadic" [ bench "sumFoldMonadic"    $ whnf sumFoldMonadic   1000000
                        ]
@@ -44,3 +45,6 @@ sumFoldMonadic n = flip execState 0 $ do
   forLoop 0 (< n) (+1) $ \i -> do
     x <- get
     put $! x + i
+
+numSumFold :: Int -> Int
+numSumFold n = numLoopFold 0 (n - 1) 0 (+) -- numLoopFold is inclusive
