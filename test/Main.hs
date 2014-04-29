@@ -13,6 +13,22 @@ main = hspec $ do
 
   describe "forLoop" $ do
 
+    it "sum [1..10], strict State" $ do
+      let res = flip execState 0 $ do
+            forLoop (1 :: Int) (<= 10) (+1) $ \i -> do
+              x <- get
+              put $! x + i
+
+      res `shouldBe` sum [1..10]
+
+    it "sum [-10..10], strict State" $ do
+      let res = flip execState 0 $ do
+            forLoop (-10 :: Int) (<= 10) (+1) $ \i -> do
+              x <- get
+              put $! x + i
+
+      res `shouldBe` sum [-10..10]
+
     it "over all of Word32, calculating sum, IORef" $ do
       ref <- newIORef 0
       forLoop (0 :: Word32) (< maxBound) (+1) $ \i -> do
