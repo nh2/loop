@@ -26,6 +26,7 @@
 --   @forLoop 1 (<= n) (+1)@.
 module Control.Loop
   ( forLoop
+  , forLoopFold
   ) where
 
 
@@ -38,3 +39,19 @@ forLoop start cond inc f = go start
           | otherwise = return ()
 
 {-# INLINE forLoop #-}
+
+
+-- | @forLoopFold start cond inc acc0 f@: A pure fold using a for loop
+-- instead of a list for performance.
+--
+-- Care is taken that @acc0@ not be strictly evaluated if unless done so by @f@.
+forLoopFold :: a -> (a -> Bool) -> (a -> a) -> acc -> (acc -> a -> acc) -> acc
+forLoopFold start cond inc acc0 f = go acc0 start
+  where
+    -- Not using !acc, see:
+    --   http://neilmitchell.blogspot.co.uk/2013/08/destroying-performance-with-strictness.html
+    go acc !x | cond x    = let acc' = f acc x
+                             in acc' `seq` go acc' (inc x)
+              | otherwise = acc
+
+{-# INLINE forLoopFold #-}
