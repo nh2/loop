@@ -1,6 +1,8 @@
 loop
 ====
 
+[![Build Status](https://travis-ci.org/nh2/loop.png)](https://travis-ci.org/nh2/loop)
+
 Fast loops for Haskell (for when GHC can't optimize `forM_`), with benchmarks.
 
 **Summary:**
