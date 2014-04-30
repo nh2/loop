@@ -93,7 +93,8 @@ Benchmarks
 * [bench/Bench.hs results](https://rawgit.com/nh2/loop/master/results/bench.html)
 * [bench/TraverseW32.hs results](https://rawgit.com/nh2/loop/master/results/bench-traverse-w32.html)
 * [bench/FoldlAndIORefAreSlow.hs results](https://rawgit.com/nh2/loop/master/results/bench-foldl-and-iorefs-are-slow.html) - see also
-  [llvm](https://rawgit.com/nh2/loop/master/results/bench-foldl-and-iorefs-are-slow-7.8.html),
+  [llvm](https://rawgit.com/nh2/loop/master/results/bench-foldl-and-iorefs-are-slow-llvm.html),
+  [ghc7.8](https://rawgit.com/nh2/loop/master/results/bench-foldl-and-iorefs-are-slow-7.8.html),
   [ghc7.8/llvm](https://rawgit.com/nh2/loop/master/results/bench-foldl-and-iorefs-are-slow-7.8-llvm.html)
 
 Some results:
