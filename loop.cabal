@@ -61,7 +61,7 @@ benchmark bench
   build-depends:
       base                >= 4 && < 5
     , loop
-    , criterion           >= 0.8.0.1
+    , criterion           >= 0.6.0.0
     , random              >= 1.0.1.1
     , vector              >= 0.10.9.1
     , foldl               >= 1.0.0 && < 1.1
@@ -78,7 +78,7 @@ benchmark bench-folds
   build-depends:
       base                >= 4 && < 5
     , loop
-    , criterion           >= 0.8.0.1
+    , criterion           >= 0.6.0.0
     , mtl                 >= 2.1.2
   ghc-options:
     -Wall -O2
@@ -93,7 +93,7 @@ benchmark bench-traverse-w32
   build-depends:
       base                >= 4 && < 5
     , loop
-    , criterion           >= 0.8.0.1
+    , criterion           >= 0.6.0.0
     , vector              >= 0.10.9.1
   ghc-options:
     -Wall -O2
@@ -107,7 +107,7 @@ benchmark bench-foldl-and-iorefs-are-slow
     FoldlAndIORefAreSlow.hs
   build-depends:
       base                >= 4.6 && < 5
-    , criterion           >= 0.8.0.1
+    , criterion           >= 0.6.0.0
     , mtl                 >= 2.1.2
     , vector              >= 0.10.9.1
   ghc-options:
