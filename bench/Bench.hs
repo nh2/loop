@@ -12,6 +12,8 @@ import           System.Random (randomIO)
 import           Control.Loop (forLoop, numLoop)
 import           Control.Loop.Internal (loop, unsafeLoop)
 
+import qualified Control.Foldl as L
+
 
 main :: IO ()
 main = do
@@ -41,6 +43,7 @@ main = do
                    , bench "uvectorEnumFromToInt"         $ nfIO $ uvectorEnumFromToInt         0 (1000000 :: Int)    (\_ -> return ())
                 -- Allocates the vector -> linear space and slow
                 -- , bench "uvectorEnumFromNInt"          $ nfIO $ uvectorEnumFromNInt          0 (1000000 :: Int)    (\_ -> return ())
+                   , bench "FoldL.FoldM"                   $ nfIO $ L.foldM (L.FoldM (\m x -> return ()) (return ()) return) [1..1000000::Int]    
                    ]
 
     , bgroup "w32" [ bench "loop"                          $ nfIO $ loop                        0 (1000000 :: Word32) (\_ -> return ())
@@ -57,6 +60,7 @@ main = do
                    , bench "vectorEnumFromToW32"           $ nfIO $ vectorEnumFromToW32         0 (1000000 :: Word32) (\_ -> return ())
                    , bench "uvectorFromListW32"            $ nfIO $ uvectorFromListW32          0 (1000000 :: Word32) (\_ -> return ())
                    , bench "uvectorEnumFromToW32"          $ nfIO $ uvectorEnumFromToW32        0 (1000000 :: Word32) (\_ -> return ())
+                   , bench "FoldL.FoldM"                   $ nfIO $ L.foldM (L.FoldM (\m x -> return ()) (return ()) return) [1..1000000::Word32]    
                    ]
 
     -- `succ` is almost twice as slow as (+1) because it does an overflow check.
