@@ -5,7 +5,7 @@ import           Data.IORef
 import           Data.Word
 import           Test.Hspec
 
-import           Control.Loop (forLoop, numLoop, numLoopFold)
+import           Control.Loop
 
 
 main :: IO ()
@@ -53,6 +53,18 @@ main = hspec $ do
       res `shouldBe` (maxBound :: Word32)
 
 
+  describe "forLoopState" $ do
+
+    it "monadic and threaded state" $ do
+      let res = flip execState 0 $ do
+            _ <- forLoopState (0 :: Int) (<= 10) (+1) (1 :: Int) $ \st i -> do
+                    x <- get
+                    put $! x + st + i
+                    return (st * 2)
+            return ()
+
+      res `shouldBe` sum (map (\a -> a + 2 ^ a) [0 .. 10])
+
   describe "numLoop" $ do
 
     it "is inclusive" $ do
@@ -62,6 +74,19 @@ main = hspec $ do
               put $! x + i
 
       res `shouldBe` 55
+
+
+  describe "numLoopState" $ do
+
+    it "monadic and threaded state" $ do
+      let res = flip execState 0 $ do
+            _ <- numLoopState (0 :: Int) 10 (1 :: Int) $ \st i -> do
+                        x <- get
+                        put $! x + st + i
+                        return (st * 2)
+            return ()
+
+      res `shouldBe` sum (map (\a -> a + 2 ^ a) [0 .. 10])
 
 
   describe "numLoopFold" $ do

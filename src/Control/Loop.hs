@@ -26,8 +26,10 @@
 --   @forLoop 1 (<= n) (+1)@.
 module Control.Loop
   ( forLoop
+  , forLoopState
   , forLoopFold
   , numLoop
+  , numLoopState
   , numLoopFold
   ) where
 
@@ -42,6 +44,17 @@ forLoop start cond inc f = go start
 
 {-# INLINE forLoop #-}
 
+
+-- | @forLoopState start cond inc initialState f@: A C-style for loop with
+-- starting value, loop condition, incrementor and a state that is threaded
+-- through the computation.
+forLoopState :: (Monad m) => a -> (a -> Bool) -> (a -> a) -> b -> (b -> a -> m b) -> m b
+forLoopState start cond inc initialState f = go start initialState
+  where
+    go !x !state | cond x    = f state x >>= go (inc x)
+                 | otherwise = return state
+
+{-# INLINE forLoopState #-}
 
 -- | @forLoopFold start cond inc acc0 f@: A pure fold using a for loop
 -- instead of a list for performance.
@@ -71,6 +84,18 @@ numLoop start end f = go start
 
 {-# INLINE numLoop #-}
 
+-- | @numLoopState start end f initialState@: Loops over a contiguous numerical
+-- range, including @end@ threading a state through the computation.
+--
+-- It uses @(+ 1)@ so for most integer types it has no bounds (overflow) check.
+numLoopState :: (Num a, Eq a, Monad m) => a -> a -> b -> (b -> a -> m b) -> m b
+numLoopState start end initState f = go start initState
+  where
+    go !x !state | x == end  = f state x
+                 | otherwise = f state x >>= go (x+1)
+
+
+{-# INLINE numLoopState #-}
 
 -- | @numLoopFold start end acc0 f@: A pure fold over a contiguous numerical
 -- range, including @end@.
