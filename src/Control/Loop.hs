@@ -76,8 +76,8 @@ forLoopFold start cond inc acc0 f = go acc0 start
 -- @end@.
 --
 -- It uses @(+ 1)@ so for most integer types it has no bounds (overflow) check.
-numLoop :: (Num a, Eq a, Monad m) => a -> a -> (a -> m ()) -> m ()
-numLoop start end f = go start
+numLoop :: (Num a, Ord a, Monad m) => a -> a -> (a -> m ()) -> m ()
+numLoop start end f = if start <= end then go start else return ()
   where
     go !x | x == end  = f x
           | otherwise = f x >> go (x+1)
