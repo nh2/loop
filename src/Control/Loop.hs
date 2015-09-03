@@ -75,6 +75,8 @@ forLoopFold start cond inc acc0 f = go acc0 start
 -- | @numLoop start end f@: Loops over a contiguous numerical range, including
 -- @end@.
 --
+-- Does nothing when not @start <= end@.
+--
 -- It uses @(+ 1)@ so for most integer types it has no bounds (overflow) check.
 numLoop :: (Num a, Ord a, Monad m) => a -> a -> (a -> m ()) -> m ()
 numLoop start end f = if start <= end then go start else return ()
