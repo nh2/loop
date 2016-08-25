@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns #-}
+--{-# LANGUAGE BangPatterns #-}
 
 -- | This is for trying out loop alternatives.
 --
@@ -16,8 +16,8 @@ module Control.Loop.Internal
 loop :: (Enum e, Eq e, Monad m) => e -> e -> (e -> m ()) -> m ()
 loop start end f = go start
   where
-    go !x | x == end  = f x
-          | otherwise = f x >> go (succ x)
+    go x | x `seq` x == end = f x
+         | otherwise        = f x >> go (succ x)
 
 {-# INLINE loop #-}
 
@@ -33,8 +33,8 @@ loop start end f = go start
 unsafeLoop :: (Enum e, Eq e, Monad m) => e -> e -> (e -> m ()) -> m ()
 unsafeLoop start end f = go start
   where
-    go !x | x == end  = f x
-          | otherwise = f x >> go (unsafeSucc x)
+    go x | x `seq` x == end = f x
+         | otherwise        = f x >> go (unsafeSucc x)
     unsafeSucc = toEnum . (+ 1) . fromEnum
 
 {-# INLINE unsafeLoop #-}
