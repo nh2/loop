@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns #-}
+--{-# LANGUAGE BangPatterns #-}
 
 -- | Provides a convenient and fast alternative to the common
 -- @forM_ [1..n]@ idiom, which in many cases GHC cannot fuse to efficient
@@ -39,8 +39,9 @@ module Control.Loop
 forLoop :: (Monad m) => a -> (a -> Bool) -> (a -> a) -> (a -> m ()) -> m ()
 forLoop start cond inc f = go start
   where
-    go !x | cond x    = f x >> go (inc x)
-          | otherwise = return ()
+    go x | x `seq` False = undefined
+         | cond x    = f x >> go (inc x)
+         | otherwise = return ()
 
 {-# INLINE forLoop #-}
 
@@ -51,8 +52,9 @@ forLoop start cond inc f = go start
 forLoopState :: (Monad m) => a -> (a -> Bool) -> (a -> a) -> b -> (b -> a -> m b) -> m b
 forLoopState start cond inc initialState f = go start initialState
   where
-    go !x !state | cond x    = f state x >>= go (inc x)
-                 | otherwise = return state
+    go x state | x `seq` state `seq` False = undefined
+               | cond x    = f state x >>= go (inc x)
+               | otherwise = return state
 
 {-# INLINE forLoopState #-}
 
@@ -65,9 +67,10 @@ forLoopFold start cond inc acc0 f = go acc0 start
   where
     -- Not using !acc, see:
     --   http://neilmitchell.blogspot.co.uk/2013/08/destroying-performance-with-strictness.html
-    go acc !x | cond x    = let acc' = f acc x
-                             in acc' `seq` go acc' (inc x)
-              | otherwise = acc
+    go acc x | x `seq` False = undefined
+             | cond x    = let acc' = f acc x
+                           in acc' `seq` go acc' (inc x)
+             | otherwise = acc
 
 {-# INLINE forLoopFold #-}
 
@@ -81,8 +84,9 @@ forLoopFold start cond inc acc0 f = go acc0 start
 numLoop :: (Num a, Ord a, Monad m) => a -> a -> (a -> m ()) -> m ()
 numLoop start end f = if start <= end then go start else return ()
   where
-    go !x | x == end  = f x
-          | otherwise = f x >> go (x+1)
+    go x | x `seq` False = undefined
+         | x == end  = f x
+         | otherwise = f x >> go (x+1)
 
 {-# INLINE numLoop #-}
 
@@ -93,8 +97,9 @@ numLoop start end f = if start <= end then go start else return ()
 numLoopState :: (Num a, Eq a, Monad m) => a -> a -> b -> (b -> a -> m b) -> m b
 numLoopState start end initState f = go start initState
   where
-    go !x !state | x == end  = f state x
-                 | otherwise = f state x >>= go (x+1)
+    go x state | x `seq` state `seq` False = undefined
+               | x == end  = f state x
+               | otherwise = f state x >>= go (x+1)
 
 
 {-# INLINE numLoopState #-}
@@ -106,10 +111,11 @@ numLoopState start end initState f = go start initState
 --
 -- Care is taken that @acc0@ not be strictly evaluated if unless done so by @f@.
 numLoopFold :: (Num a, Eq a) => a -> a -> acc -> (acc -> a -> acc) -> acc
-numLoopFold start end acc0 f = go acc0 start
+numLoopFold start end acc0 f = end `seq` go acc0 start
   where
-    go acc !x | x == end  = f acc x
-              | otherwise = let acc' = f acc x
-                             in acc' `seq` go acc' (x+1)
+    go acc x | x `seq` False = undefined
+             | x == end  = f acc x
+             | otherwise = let acc' = f acc x
+                           in acc' `seq` go acc' (x+1)
 
 {-# INLINE numLoopFold #-}
